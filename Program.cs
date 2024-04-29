@@ -1,3 +1,13 @@
-﻿
-using var game = new GalaxyDefender.Game1();
-game.Run();
+﻿using GalaxyDefender;
+using System;
+
+namespace GalaxyDefender;
+
+public static class Program
+{
+	private static void Main()
+	{
+		using var game = new Game1();
+		game.Run();
+	}
+}

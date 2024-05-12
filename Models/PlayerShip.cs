@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GalaxyDefender.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,6 +10,7 @@ namespace GalaxyDefender.Models
 		public Vector2 position = new(Globals.WindowSize.X / 2, Globals.WindowSize.Y - 100);
 		private readonly Texture2D texture;
 		private readonly float speed = 500f;
+		private float shotCooldown = 0.25f;
 		private Vector2 direction = Vector2.Zero;
 		private float frameTime = 0.1f;
 		private int currentFrame;
@@ -28,6 +30,13 @@ namespace GalaxyDefender.Models
 			UpdateControls();
 			UpdateRectangle();
 			UpdatePosition();
+
+			shotCooldown -= Globals.Time;
+			if (shotCooldown < 0)
+			{
+				shotCooldown += 0.25f;
+				ProjectileManager.AddProjectile(new(position.X + 20, position.Y));
+			}
 		}
 
 		//Moves

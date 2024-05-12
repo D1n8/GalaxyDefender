@@ -20,13 +20,17 @@ namespace GalaxyDefender
 		{
 			ship.Update();
 			EnemyManager.UpdateEnemies();
+			ProjectileManager.UpdateProjectiles();
 		}
 
 		public void Draw()
 		{
 			Globals.SpriteBatch.Begin();
-			ship.Draw();
+
 			EnemyManager.DrawEnemies();
+			ProjectileManager.DrawProjectiles();
+			ship.Draw();
+
 			Globals.SpriteBatch.End();
 		}
 	}

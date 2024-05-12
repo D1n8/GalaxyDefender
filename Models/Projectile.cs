@@ -10,6 +10,7 @@ namespace GalaxyDefender.Models
 		public Vector2 position;
 		private readonly float speed;
 		private Vector2 direction;
+		public Rectangle CollisionRectangle => new(position.ToPoint(), texture.Bounds.Size);
 
 		public Projectile(Texture2D Texture, Vector2 Position, Vector2 Direction, float Speed)
 		{

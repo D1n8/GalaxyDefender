@@ -10,7 +10,8 @@ namespace GalaxyDefender.Models
 		public Vector2 position = new(Globals.WindowSize.X / 2, Globals.WindowSize.Y - 100);
 		private readonly Texture2D texture;
 		private readonly float speed = 500f;
-		private float shotCooldown = 0.25f;
+		private const float shotTime = 0.25f;
+		private float shotCooldown = shotTime;
 		private Vector2 direction = Vector2.Zero;
 		private float frameTime = 0.1f;
 		private int currentFrame;
@@ -18,11 +19,19 @@ namespace GalaxyDefender.Models
 		private Rectangle sourceRectangle;
 		private readonly Point frameSize;
 		public Rectangle CollisionRectangle => new(position.ToPoint(), frameSize);
+
 		public PlayerShip(Texture2D Texture)
 		{
 			texture = Texture;
 			frameSize = new(texture.Width / 3, texture.Height / 3);
 		}
+
+		public void Restart()
+		{
+			shotCooldown = shotTime;
+			position = new(Globals.WindowSize.X / 2, Globals.WindowSize.Y - 100);
+		}
+
 
 		public void Update()
 		{
@@ -34,12 +43,11 @@ namespace GalaxyDefender.Models
 			shotCooldown -= Globals.Time;
 			if (shotCooldown < 0)
 			{
-				shotCooldown += 0.25f;
+				shotCooldown += shotTime;
 				ProjectileManager.AddProjectile(new(position.X + 20, position.Y));
 			}
 		}
 
-		//Moves
 		private void UpdateControls()
 		{
 			direction = Vector2.Zero;
@@ -52,14 +60,12 @@ namespace GalaxyDefender.Models
 			if (direction != Vector2.Zero) direction.Normalize();
 		}
 
-		//Изменение позиции
 		private void UpdatePosition()
 		{
 			position += direction * speed * Globals.Time;
 			position = Vector2.Clamp(position, Vector2.Zero, new(Globals.WindowSize.X - frameSize.X, Globals.WindowSize.Y - frameSize.Y));
 		}
 
-		//Анимация 
 		private void UpdateRectangle()
 		{
 			var row = 0;

@@ -12,12 +12,20 @@ namespace GalaxyDefender
 		public GameManager()
 		{
 			ship = new(Globals.Content.Load<Texture2D>("ship"));
-			EnemyManager.AddEnemy();
-			EnemyManager.AddEnemy();
-			EnemyManager.AddEnemy();
+			for (int i = 0; i < 3; i++)
+			{
+				EnemyManager.AddEnemy();
+			}
 		}
 
-		public void HandleCollisions()
+		public static void Restart(PlayerShip playerShip)
+		{
+			playerShip.Restart();
+			EnemyManager.Restart();
+			ProjectileManager.Restart();
+		}
+
+		public void HandleEnemyCollisions()
 		{
 			foreach (var enemy in EnemyManager.Enemies.ToArray())
 			{
@@ -33,12 +41,35 @@ namespace GalaxyDefender
 			};
 		}
 
+		public void HandlePlayerCollision()
+		{
+			foreach (var enemy in EnemyManager.Enemies)
+			{
+				if (enemy.CollisionRectangle.Intersects(ship.CollisionRectangle))
+				{
+					Restart(ship);
+					break;
+				};
+			};
+
+			foreach (var projectile in ProjectileManager.EnemyProjectiles)
+			{
+				if (projectile.CollisionRectangle.Intersects(ship.CollisionRectangle))
+				{
+					Restart(ship);
+					break;
+				};
+			};
+		}
+
+
 		public void Update()
 		{
 			ship.Update();
 			EnemyManager.UpdateEnemies();
 			ProjectileManager.UpdateProjectiles();
-			HandleCollisions();
+			HandleEnemyCollisions();
+			HandlePlayerCollision();
 		}
 
 		public void Draw()

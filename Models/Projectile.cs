@@ -20,6 +20,8 @@ namespace GalaxyDefender.Models
 			direction = Direction;
 		}
 
+
+
 		public void Update()
 		{
 			position += direction * speed * Globals.Time;

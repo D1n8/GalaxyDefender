@@ -1,6 +1,9 @@
 ﻿using GalaxyDefender.Managers;
 using GalaxyDefender.Models;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
+using System.Threading.Tasks.Sources;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace GalaxyDefender
@@ -8,9 +11,12 @@ namespace GalaxyDefender
 	public class GameManager
 	{
 		private readonly PlayerShip ship;
+		private readonly SpriteFont font;
+		private static int score;
 
 		public GameManager()
 		{
+			font = Globals.Content.Load<SpriteFont>("font");
 			ship = new(Globals.Content.Load<Texture2D>("ship"));
 			for (int i = 0; i < 3; i++)
 			{
@@ -23,6 +29,7 @@ namespace GalaxyDefender
 			playerShip.Restart();
 			EnemyManager.Restart();
 			ProjectileManager.Restart();
+			score = 0;
 		}
 
 		public void HandleEnemyCollisions()
@@ -35,6 +42,7 @@ namespace GalaxyDefender
 					{
 						EnemyManager.Enemies.Remove(enemy);
 						ProjectileManager.Projectiles.Remove(projectile);
+						score++;
 						break;
 					};
 				};
@@ -79,6 +87,8 @@ namespace GalaxyDefender
 			EnemyManager.DrawEnemies();
 			ProjectileManager.DrawProjectiles();
 			ship.Draw();
+
+			Globals.SpriteBatch.DrawString(font, score.ToString(), Vector2.Zero, Color.White);
 
 			Globals.SpriteBatch.End();
 		}

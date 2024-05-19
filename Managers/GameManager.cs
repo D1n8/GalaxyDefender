@@ -11,15 +11,14 @@ namespace GalaxyDefender
 		private readonly SpriteFont font;
 		private static int score;
 		private static int highScore;
+		private readonly Texture2D backgroundTexture;
 
 		public GameManager()
 		{
 			font = Globals.Content.Load<SpriteFont>("font");
 			ship = new(Globals.Content.Load<Texture2D>("ship"));
-			for (int i = 0; i < 3; i++)
-			{
-				EnemyManager.AddEnemy();
-			}
+			backgroundTexture = Globals.Content.Load<Texture2D>("background");
+			EnemyManager.AddEnemy();
 		}
 
 		public static void Restart(PlayerShip playerShip)
@@ -85,6 +84,8 @@ namespace GalaxyDefender
 		public void Draw()
 		{
 			Globals.SpriteBatch.Begin();
+
+			Globals.SpriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Globals.GraphicsDevice.Viewport.Width, Globals.GraphicsDevice.Viewport.Height), Color.White);
 
 			EnemyManager.DrawEnemies();
 			ProjectileManager.DrawProjectiles();

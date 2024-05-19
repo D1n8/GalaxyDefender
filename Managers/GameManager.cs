@@ -2,9 +2,6 @@
 using GalaxyDefender.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
-using System.Threading.Tasks.Sources;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace GalaxyDefender
 {
@@ -13,6 +10,7 @@ namespace GalaxyDefender
 		private readonly PlayerShip ship;
 		private readonly SpriteFont font;
 		private static int score;
+		private static int highScore;
 
 		public GameManager()
 		{
@@ -26,6 +24,10 @@ namespace GalaxyDefender
 
 		public static void Restart(PlayerShip playerShip)
 		{
+			if (score > highScore)
+			{
+				highScore = score;
+			}
 			playerShip.Restart();
 			EnemyManager.Restart();
 			ProjectileManager.Restart();
@@ -88,7 +90,9 @@ namespace GalaxyDefender
 			ProjectileManager.DrawProjectiles();
 			ship.Draw();
 
-			Globals.SpriteBatch.DrawString(font, score.ToString(), Vector2.Zero, Color.White);
+			Globals.SpriteBatch.DrawString(font, "Score: " + score.ToString(), new Vector2(10, 10), Color.White);
+			Globals.SpriteBatch.DrawString(font, "High Score: " + highScore, 
+				new Vector2(Globals.GraphicsDevice.Viewport.Width - font.MeasureString("High Score: " + highScore).X - 10, 10), Color.White);
 
 			Globals.SpriteBatch.End();
 		}

@@ -30,6 +30,7 @@ namespace GalaxyDefender
 			playerShip.Restart();
 			EnemyManager.Restart();
 			ProjectileManager.Restart();
+			ExplosionManager.Restart();
 			score = 0;
 		}
 
@@ -41,6 +42,7 @@ namespace GalaxyDefender
 				{
 					if (enemy.CollisionRectangle.Intersects(projectile.CollisionRectangle))
 					{
+						ExplosionManager.AddExplosion(enemy.position);
 						EnemyManager.Enemies.Remove(enemy);
 						ProjectileManager.Projectiles.Remove(projectile);
 						score++;
@@ -79,6 +81,7 @@ namespace GalaxyDefender
 			ProjectileManager.UpdateProjectiles();
 			HandleEnemyCollisions();
 			HandlePlayerCollision();
+			ExplosionManager.UpdateExplosions();
 		}
 
 		public void Draw()
@@ -89,6 +92,7 @@ namespace GalaxyDefender
 
 			EnemyManager.DrawEnemies();
 			ProjectileManager.DrawProjectiles();
+			ExplosionManager.DrawExplosions();
 			ship.Draw();
 
 			Globals.SpriteBatch.DrawString(font, "Score: " + score.ToString(), new Vector2(10, 10), Color.White);

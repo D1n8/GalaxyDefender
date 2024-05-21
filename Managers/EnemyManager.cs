@@ -10,7 +10,7 @@ namespace GalaxyDefender.Managers
 	public static class EnemyManager
 	{
 		public static readonly List<Enemy> Enemies = new();
-		private const float spawnTime = 0.6f;
+		private const float spawnTime = 0.9f;
 		private static float spawnCooldown = spawnTime;
 
 		public static void Restart()

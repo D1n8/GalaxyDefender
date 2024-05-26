@@ -35,7 +35,7 @@ namespace GalaxyDefender.Managers
 		public static void UpdateProjectiles()
 		{
 			Projectiles.ForEach(p => p.Update());
-			Projectiles.RemoveAll(p => p.position.Y < -20);
+			Projectiles.RemoveAll(p => p.position.Y < 0);
 			EnemyProjectiles.ForEach(p => p.Update());
 			EnemyProjectiles.RemoveAll(p => p.position.Y > Globals.WindowSize.Y);
 		}

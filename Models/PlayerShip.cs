@@ -32,20 +32,13 @@ namespace GalaxyDefender.Models
 			position = new(Globals.WindowSize.X / 2, Globals.WindowSize.Y - 100);
 		}
 
-
 		public void Update()
 		{
 			UpdateAnimation();
 			UpdateControls();
 			UpdateRectangle();
 			UpdatePosition();
-
-			shotCooldown -= Globals.Time;
-			if (shotCooldown < 0)
-			{
-				shotCooldown += shotTime;
-				ProjectileManager.AddProjectile(new(position.X + 20, position.Y));
-			}
+			UpdatePlayerShipProjectiles();
 		}
 
 		private void UpdateControls()
@@ -85,6 +78,16 @@ namespace GalaxyDefender.Models
 
 				if (currentFrame == 2) increment = -1;
 				if (currentFrame == 0) increment = 1;
+			}
+		}
+
+		private void UpdatePlayerShipProjectiles()
+		{
+			shotCooldown -= Globals.Time;
+			if (shotCooldown < 0)
+			{
+				shotCooldown += shotTime;
+				ProjectileManager.AddProjectile(new(position.X + 20, position.Y));
 			}
 		}
 

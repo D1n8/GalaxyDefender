@@ -73,6 +73,10 @@ namespace GalaxyDefender
 			};
 		}
 
+		public static int GetScore()
+		{
+			return score;
+		}
 
 		public void Update()
 		{
@@ -88,7 +92,8 @@ namespace GalaxyDefender
 		{
 			Globals.SpriteBatch.Begin();
 
-			Globals.SpriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Globals.GraphicsDevice.Viewport.Width, Globals.GraphicsDevice.Viewport.Height), Color.White);
+			Globals.SpriteBatch.Draw(backgroundTexture, 
+				new Rectangle(0, 0, Globals.GraphicsDevice.Viewport.Width, Globals.GraphicsDevice.Viewport.Height), Color.White);
 
 			EnemyManager.DrawEnemies();
 			ProjectileManager.DrawProjectiles();

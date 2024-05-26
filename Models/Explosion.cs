@@ -19,6 +19,11 @@ namespace GalaxyDefender.Models
 			frameSize = new(texture.Width / 8, texture.Height);
 		}
 
+		public void Update()
+		{
+			UpdateAnimation();
+			UpdateRectangle();
+		}
 		private void UpdateAnimation()
 		{
 			frameTime -= Globals.Time;
@@ -33,12 +38,6 @@ namespace GalaxyDefender.Models
 		{
 			Point location = new(currentFrame * frameSize.X, 0);
 			sourceRectangle = new(location, frameSize);
-		}
-
-		public void Update()
-		{
-			UpdateAnimation();
-			UpdateRectangle();
 		}
 
 		public void Draw()

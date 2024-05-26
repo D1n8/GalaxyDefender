@@ -10,13 +10,15 @@ namespace GalaxyDefender.Managers
 	public static class EnemyManager
 	{
 		public static readonly List<Enemy> Enemies = new();
-		private const float spawnTime = 0.9f;
-		private static float spawnCooldown = spawnTime;
+		private const float baseSpawnTime = 1.5f;
+		private const float decrementSpawnTme = 0.02f;
+		private const float minSpawnTime = 0.5f;
+		private static float spawnCooldown = baseSpawnTime;
 
 		public static void Restart()
 		{
 			Enemies.Clear();
-			spawnCooldown = spawnTime;
+			spawnCooldown = baseSpawnTime;
 		}
 
 		public static void AddEnemy()
@@ -44,9 +46,15 @@ namespace GalaxyDefender.Managers
 			spawnCooldown -= Globals.Time;
 			if (spawnCooldown < 0)
 			{
-				spawnCooldown += spawnTime;
+				spawnCooldown += CalculateSpawnTime();
 				AddEnemy();
 			}
+		}
+
+		private static float CalculateSpawnTime()
+		{
+			int score = GameManager.GetScore();
+			return Math.Max(baseSpawnTime - (score * decrementSpawnTme), minSpawnTime);
 		}
 
 		public static void DrawEnemies()

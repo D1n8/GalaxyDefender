@@ -12,6 +12,7 @@ namespace GalaxyDefender.Models
 		private readonly Texture2D texture;
 		private readonly float speed = 250f;
 		private const float shotEnemyTime = 1f;
+		private const float distanceToPosition = 5f;
 		private float shotEnemyCooldown = shotEnemyTime;
 		private Vector2 direction = Vector2.Zero;
 		private Vector2 destination;
@@ -32,7 +33,11 @@ namespace GalaxyDefender.Models
 			UpdateAnimation();
 			UpdateRectangle();
 			UpdatePosition();
+			UpdateEnemyProjectiles();
+		}
 
+		private void UpdateEnemyProjectiles()
+		{
 			shotEnemyCooldown -= Globals.Time;
 			if (shotEnemyCooldown < 0)
 			{
@@ -45,7 +50,7 @@ namespace GalaxyDefender.Models
 		{
 			position += direction * speed * Globals.Time;
 
-			if (Vector2.Distance(position, destination) < 5f)
+			if (Vector2.Distance(position, destination) < distanceToPosition)
 			{
 				SetRandomDestination();
 			}
